@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Submit Form</title>
+  </head>
+  <body>
+    <form id="myForm">
+      <input type="text" id="name" placeholder="Your name" required />
+      <input type="email" id="email" placeholder="Your email" required />
+      <input type="tel" id="tel" placeholder="Your phone number" required />
+      <input type="text" id="message" placeholder="Your message" required />
+      <button type="submit">Submit</button>
+    </form>
+
+    <script>
+      document
+        .getElementById("myForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const name = document.getElementById("name").value;
+          const email = document.getElementById("email").value;
+          const tel = document.getElementById("tel").value;
+          const message = document.getElementById("message").value;
+
+          // Send form data to the Node.js backend
+          fetch("http://localhost:3000/submit-form", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ name, email, tel, message }),
+          })
+            .then((response) => response.text())
+            .then((data) => {
+              alert("Form submitted successfully");
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+              alert("Error submitting form");
+            });
+        });
+    </script>
+  </body>
+</html>
