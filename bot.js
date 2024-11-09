@@ -5,7 +5,8 @@ const cors = require("cors");
 
 // Create an Express app to handle the HTML form submission
 const app = express();
-const port = 80;
+const port = 3000;
+const host = "0.0.0.0";
 
 app.use(cors());
 
@@ -95,8 +96,8 @@ app.get("/info", async (req, res) => {
 });
 
 // Start the Express server to handle form submissions
-app.listen(port, "0.0.0.0", () => {
-  console.log(`Server is running on http://localhost:${port}`);
+app.listen(port, host, () => {
+  console.log(`Server is running on http://${host}:${port}`);
 });
 
 // Log the chat ID of users who send a message (helps you add allowed users)
