@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 const botToken = "7820076195:AAE7TTsq15V6Olcobhrrourpmu9zreetjb0";
 const bot = new TelegramBot(botToken, { polling: true });
 
-const allowedChatIds = ["1031081189", "6126626263"];
+const allowedChatIds = ["1031081189", "6126626263", "5751827734", "1372474769"];
 
 const isAuthorizedUser = (chatId) => allowedChatIds.includes(chatId.toString());
 
