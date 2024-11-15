@@ -3,27 +3,21 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
-// Create an Express app to handle the HTML form submission
 const app = express();
 const port = 3000;
 const host = "0.0.0.0";
 
 app.use(cors());
 
-// Parse JSON request bodies
 app.use(bodyParser.json());
 
-// Your Telegram bot token (replace with your bot token from BotFather)
 const botToken = "7820076195:AAE7TTsq15V6Olcobhrrourpmu9zreetjb0";
 const bot = new TelegramBot(botToken, { polling: true });
 
-// Array of allowed chat IDs (replace with your allowed users' chat IDs)
-const allowedChatIds = ["1031081189", "6126626263"]; // Replace with actual chat IDs
+const allowedChatIds = ["1031081189", "6126626263"];
 
-// Middleware to check if the user is authorized
 const isAuthorizedUser = (chatId) => allowedChatIds.includes(chatId.toString());
 
-// Start command for the bot
 bot.onText(/\/start/, (msg) => {
   if (!isAuthorizedUser(msg.chat.id)) {
     bot.sendMessage(msg.chat.id, "Вы не имеете права использовать этого бота.");
@@ -36,21 +30,18 @@ bot.onText(/\/start/, (msg) => {
   );
 });
 
-// Handle /form command for submitting the form
 bot.onText(/\/form/, (msg) => {
   if (!isAuthorizedUser(msg.chat.id)) {
     bot.sendMessage(msg.chat.id, "Вы не имеете права использовать этого бота.");
     return;
   }
 
-  // Send form URL (could be replaced with your real form URL)
   bot.sendMessage(
     msg.chat.id,
     "Пожалуйста, заполните форму: https://wealthwize.netlify.app/#contact"
   );
 });
 
-// Handle form submissions (from the HTML form)
 app.post("/submit-form", async (req, res) => {
   const { name, email, tel, message } = req.body;
 
@@ -64,10 +55,8 @@ app.post("/submit-form", async (req, res) => {
 
   const fetch = (await import("node-fetch")).default; // Dynamically import node-fetch
 
-  // Send form data to the Telegram bot
   const messageToSend = `Новое сообщение от клиента 🔔 \n\n<b>Имя: </b>${name}\n<b>Почта: </b>${email}\n<b>Номер телефона: </b>${tel}\n<b>Сообщение: </b>\n\n<i>${message}</i>`;
 
-  // Send the form data as a message to all authorized users
   try {
     for (const chatId of allowedChatIds) {
       await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
@@ -95,12 +84,10 @@ app.get("/info", async (req, res) => {
     );
 });
 
-// Start the Express server to handle form submissions
 app.listen(port, host, () => {
   console.log(`Server is running on http://${host}:${port}`);
 });
 
-// Log the chat ID of users who send a message (helps you add allowed users)
 bot.on("message", (msg) => {
   console.log(`Received message from chat ID: ${msg.chat.id}`);
 });
