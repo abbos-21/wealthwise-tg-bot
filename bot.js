@@ -4,8 +4,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 
 const app = express();
-const port = 3000;
-const host = "0.0.0.0";
+const port = process.env.PORT || 3000;
 
 app.use(cors());
 
@@ -84,8 +83,8 @@ app.get("/info", async (req, res) => {
     );
 });
 
-app.listen(port, host, () => {
-  console.log(`Server is running on http://${host}:${port}`);
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });
 
 bot.on("message", (msg) => {
