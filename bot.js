@@ -37,7 +37,7 @@ bot.onText(/\/form/, (msg) => {
 
   bot.sendMessage(
     msg.chat.id,
-    "Пожалуйста, заполните форму: https://wealthwize.netlify.app/#contact"
+    "Пожалуйста, заполните форму: https://wealthwise.uz/#contact"
   );
 });
 
